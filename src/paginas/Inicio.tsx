@@ -1,12 +1,13 @@
+import { Link } from 'react-router-dom'
 import { Users, Stethoscope, CalendarDays, FileText } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
 import { formatearBogota } from '@/lib/tiempo'
 
 const accesos = [
-  { titulo: 'Pacientes', icono: Users, desc: 'Gestión de pacientes y fichas clínicas' },
-  { titulo: 'Historia clínica', icono: Stethoscope, desc: 'Apertura, evolución y disciplinas' },
-  { titulo: 'Agenda de citas', icono: CalendarDays, desc: 'Programación por profesional' },
-  { titulo: 'Programación de servicios', icono: FileText, desc: 'CUPS, autorizaciones y facturación' },
+  { titulo: 'Pacientes', icono: Users, desc: 'Gestión de pacientes y fichas clínicas', ruta: '/pacientes' },
+  { titulo: 'Historia clínica', icono: Stethoscope, desc: 'Apertura, evolución y disciplinas', ruta: null },
+  { titulo: 'Agenda de citas', icono: CalendarDays, desc: 'Programación por profesional', ruta: null },
+  { titulo: 'Programación de servicios', icono: FileText, desc: 'CUPS, autorizaciones y facturación', ruta: null },
 ]
 
 export default function Inicio() {
@@ -21,16 +22,34 @@ export default function Inicio() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {accesos.map(({ titulo, icono: Icono, desc }) => (
-          <div
-            key={titulo}
-            className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md"
-          >
-            <Icono className="mb-3 h-8 w-8 text-marca-600" />
-            <h2 className="font-semibold text-slate-800">{titulo}</h2>
-            <p className="mt-1 text-sm text-slate-500">{desc}</p>
-          </div>
-        ))}
+        {accesos.map(({ titulo, icono: Icono, desc, ruta }) => {
+          const contenido = (
+            <>
+              <Icono className="mb-3 h-8 w-8 text-marca-600" />
+              <h2 className="font-semibold text-slate-800">{titulo}</h2>
+              <p className="mt-1 text-sm text-slate-500">{desc}</p>
+            </>
+          )
+          return ruta ? (
+            <Link
+              key={titulo}
+              to={ruta}
+              className="block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-marca-300 hover:shadow-md"
+            >
+              {contenido}
+            </Link>
+          ) : (
+            <div
+              key={titulo}
+              className="rounded-xl border border-slate-200 bg-white p-5 opacity-70 shadow-sm"
+            >
+              {contenido}
+              <span className="mt-2 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-500">
+                Próximamente
+              </span>
+            </div>
+          )
+        })}
       </div>
 
       <p className="mt-8 rounded-lg bg-marca-50 px-4 py-3 text-sm text-marca-800">

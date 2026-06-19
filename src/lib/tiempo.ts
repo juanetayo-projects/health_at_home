@@ -31,3 +31,18 @@ export function periodoActual(): { mes: number; anio: number } {
   const ahora = aHoraBogota(new Date())
   return { mes: ahora.getMonth() + 1, anio: ahora.getFullYear() }
 }
+
+/** Edad en años y meses a partir de una fecha de nacimiento (yyyy-MM-dd). */
+export function calcularEdad(fechaNacimiento: string | null): string {
+  if (!fechaNacimiento) return '—'
+  const nac = new Date(fechaNacimiento + 'T00:00:00')
+  const hoy = aHoraBogota(new Date())
+  let anios = hoy.getFullYear() - nac.getFullYear()
+  let meses = hoy.getMonth() - nac.getMonth()
+  if (hoy.getDate() < nac.getDate()) meses -= 1
+  if (meses < 0) {
+    anios -= 1
+    meses += 12
+  }
+  return `${anios} años ${meses} meses`
+}
