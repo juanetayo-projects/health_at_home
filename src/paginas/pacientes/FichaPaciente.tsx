@@ -6,6 +6,9 @@ import { ArrowLeft, Save, Loader2, AlertTriangle, UserPlus } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { CampoTexto, CampoSelect, CampoCheck, Seccion } from '@/componentes/campos'
 import { ESTADOS_PACIENTE } from '@/lib/tipos'
+import { SeccionDiagnosticos } from './SeccionDiagnosticos'
+import { SeccionCuidadores } from './SeccionCuidadores'
+import { SeccionVivienda } from './SeccionVivienda'
 
 const TIPOS_ID = ['CC', 'TI', 'CE', 'RC', 'PA', 'MS', 'NU', 'AS']
 const SEXOS = [
@@ -103,7 +106,8 @@ export default function FichaPaciente() {
   }
 
   return (
-    <form onSubmit={handleSubmit(alGuardar)} className="mx-auto max-w-6xl space-y-5 pb-24">
+    <div className="mx-auto max-w-6xl space-y-5 pb-24">
+    <form onSubmit={handleSubmit(alGuardar)} className="space-y-5">
       <div className="flex items-center justify-between">
         <Link to="/pacientes" className="inline-flex items-center gap-1 text-sm text-marca-600 hover:underline">
           <ArrowLeft className="h-4 w-4" /> Pacientes
@@ -125,7 +129,7 @@ export default function FichaPaciente() {
         <CampoSelect etiqueta="Sexo" requerido opciones={SEXOS} registro={register('sexo', { required: true })} />
         <CampoSelect etiqueta="RH" opciones={RH} vacio="—" registro={register('rh')} />
         <CampoSelect etiqueta="Estado civil" opciones={ESTADO_CIVIL} vacio="—" registro={register('estado_civil')} />
-        <CampoTexto etiqueta="Fecha de nacimiento" type="date" registro={register('fecha_nacimiento')} />
+        <CampoTexto etiqueta="Fecha de nacimiento" requerido type="date" registro={register('fecha_nacimiento', { required: true })} />
         <CampoTexto etiqueta="Religión" registro={register('religion')} />
         <CampoTexto etiqueta="Nivel educativo" registro={register('nivel_educativo')} />
         <CampoTexto etiqueta="Etnia" registro={register('etnia')} />
@@ -191,5 +195,14 @@ export default function FichaPaciente() {
         </div>
       </div>
     </form>
+
+      {!esNuevo && id && (
+        <div className="space-y-5">
+          <SeccionDiagnosticos pacienteId={id} />
+          <SeccionCuidadores pacienteId={id} />
+          <SeccionVivienda pacienteId={id} />
+        </div>
+      )}
+    </div>
   )
 }
