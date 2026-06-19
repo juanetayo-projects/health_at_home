@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
-import { Users, Stethoscope, CalendarDays, FileText } from 'lucide-react'
+import { Users, Stethoscope, CalendarDays, FileText, Building2 } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
 import { formatearBogota } from '@/lib/tiempo'
 
 const accesos = [
   { titulo: 'Pacientes', icono: Users, desc: 'Gestión de pacientes y fichas clínicas', ruta: '/pacientes' },
+  { titulo: 'Entidades (EPS)', icono: Building2, desc: 'Maestro de entidades y pagadores', ruta: '/entidades' },
   { titulo: 'Historia clínica', icono: Stethoscope, desc: 'Apertura, evolución y disciplinas', ruta: null },
   { titulo: 'Agenda de citas', icono: CalendarDays, desc: 'Programación por profesional', ruta: null },
   { titulo: 'Programación de servicios', icono: FileText, desc: 'CUPS, autorizaciones y facturación', ruta: null },

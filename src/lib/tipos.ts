@@ -26,6 +26,10 @@ export interface Entidad {
   nit: string
   nombre: string
   unidad: string | null
+  direccion?: string | null
+  ciudad?: string | null
+  telefono?: string | null
+  email?: string | null
   activo: boolean
 }
 
