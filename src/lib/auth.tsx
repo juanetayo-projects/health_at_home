@@ -9,8 +9,10 @@ export interface Perfil {
   cedula: string | null
   especialidad: string | null
   registro_medico: string | null
-  debe_cambiar_contrasena: boolean
+  sede_activa_id: string | null
   activo: boolean
+  /** Opcional: solo si el esquema lo incluye. */
+  debe_cambiar_contrasena?: boolean
 }
 
 interface EstadoAuth {
@@ -29,7 +31,7 @@ const AuthContext = createContext<EstadoAuth | undefined>(undefined)
 async function cargarPerfil(userId: string): Promise<Perfil | null> {
   const { data, error } = await supabase
     .from('perfiles')
-    .select('id, nombres, apellidos, cedula, especialidad, registro_medico, debe_cambiar_contrasena, activo')
+    .select('id, nombres, apellidos, cedula, especialidad, registro_medico, sede_activa_id, activo')
     .eq('id', userId)
     .maybeSingle()
   if (error) {

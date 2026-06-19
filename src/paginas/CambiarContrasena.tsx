@@ -38,11 +38,8 @@ export default function CambiarContrasena() {
       setError(errClave.message)
       return
     }
-    // Baja la bandera de cambio forzado en el perfil.
-    if (session) {
-      await supabase.from('perfiles').update({ debe_cambiar_contrasena: false }).eq('id', session.user.id)
-      await refrescarPerfil()
-    }
+    // Refresca el perfil tras el cambio.
+    if (session) await refrescarPerfil()
     setEnviando(false)
     navegar('/', { replace: true })
   }
