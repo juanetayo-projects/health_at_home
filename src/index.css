@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/* Paleta de marca — Clínica Santa Bárbara (azul corporativo ≈ #1F5BA8) */
+@theme {
+  --color-marca-50: #eef4fb;
+  --color-marca-100: #d6e4f5;
+  --color-marca-200: #aecae9;
+  --color-marca-300: #7da9da;
+  --color-marca-400: #4f87c8;
+  --color-marca-500: #1f5ba8;
+  --color-marca-600: #1b4f93;
+  --color-marca-700: #173f76;
+  --color-marca-800: #14345f;
+  --color-marca-900: #102a4d;
+
+  --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #f5f7fa;
+  color: #1a2230;
+}
