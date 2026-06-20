@@ -8,7 +8,8 @@ import { clienteAdmin } from './_supabase.mjs'
 
 const tabla = process.argv[2]
 const codigoTipo = process.argv[3]
-if (!tabla || !codigoTipo) { console.error('Uso: node migrar_historias.mjs <tabla> <CODIGO_TIPO>'); process.exit(1) }
+const fase = process.argv[4] || null // 'Apertura' | 'Evolución' (para terapias)
+if (!tabla || !codigoTipo) { console.error('Uso: node migrar_historias.mjs <tabla> <CODIGO_TIPO> [fase]'); process.exit(1) }
 
 const cfg = {
   host: process.env.LEGACY_DB_HOST, port: Number(process.env.LEGACY_DB_PORT || 3306),
@@ -40,8 +41,8 @@ console.log(`  ${pac.size} pacientes.`)
 const [profs] = await con.query('SELECT regn, identidad, nombre, apellidos FROM profesionales')
 const profMap = new Map(profs.map((p) => [String(p.regn), `${(p.identidad || '').trim()} - ${(p.nombre || '').trim()} ${(p.apellidos || '').trim()}`.trim()]))
 
-// Idempotencia: borrar lo previamente migrado de este tipo
-await sb.from('historias').delete().eq('tipo_historia_id', tipoId).not('ref_legado', 'is', null)
+// Idempotencia: borrar lo previamente migrado de esta tabla de origen
+await sb.from('historias').delete().eq('tabla_legado', tabla)
 
 console.log(`Leyendo ${tabla}…`)
 const [rows] = await con.query(`SELECT * FROM \`${tabla}\``)
@@ -66,8 +67,10 @@ for (const r of rows) {
     periodo_mes: mes,
     periodo_anio: anio,
     estado: 'Migrado',
+    tipo_consulta: fase,
     profesional_legado: profMap.get(String(profRef)) || null,
     ref_legado: Number(r.regn) || null,
+    tabla_legado: tabla,
     datos_legado: r,
   })
 }
