@@ -78,8 +78,8 @@ export function FichaEntidad({ entidadId, onCerrar }: FichaEntidadProps) {
         <Building2 className="h-4 w-4" /> {esNueva ? 'Nueva entidad' : 'Editar entidad'}
       </h2>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <Seccion titulo="Datos de la entidad">
+      <div className="space-y-3">
+        <Seccion titulo="Datos de la entidad" columnas={4}>
           <CampoTexto etiqueta="Código" requerido registro={register('codigo', { required: true })} />
           <CampoTexto etiqueta="NIT" requerido registro={register('nit', { required: true })} />
           <CampoSelect etiqueta="Unidad" opciones={UNIDADES} vacio="—" registro={register('unidad')} />
