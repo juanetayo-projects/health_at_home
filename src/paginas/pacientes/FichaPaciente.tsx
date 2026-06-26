@@ -110,60 +110,62 @@ export function FichaPaciente({ pacienteId, onCerrar }: FichaPacienteProps) {
         <UserPlus className="h-4 w-4" /> {esNuevo ? 'Nuevo paciente' : 'Editar paciente'}
       </h2>
 
-      <Seccion titulo="Identificación">
-        <CampoSelect etiqueta="Tipo ID" requerido opciones={TIPOS_ID} registro={register('tipo_identidad', { required: true })} />
-        <CampoTexto etiqueta="Identidad" requerido registro={register('identidad', { required: true })} />
-        <CampoTexto etiqueta="Apellidos" requerido registro={register('apellidos', { required: true })} />
-        <CampoTexto etiqueta="Nombres" requerido registro={register('nombres', { required: true })} />
-      </Seccion>
+      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+        <Seccion titulo="Identificación">
+          <CampoSelect etiqueta="Tipo ID" requerido opciones={TIPOS_ID} registro={register('tipo_identidad', { required: true })} />
+          <CampoTexto etiqueta="Identidad" requerido registro={register('identidad', { required: true })} />
+          <CampoTexto etiqueta="Apellidos" requerido registro={register('apellidos', { required: true })} />
+          <CampoTexto etiqueta="Nombres" requerido registro={register('nombres', { required: true })} />
+        </Seccion>
 
-      <Seccion titulo="Datos personales">
-        <CampoSelect etiqueta="Sexo" requerido opciones={SEXOS} registro={register('sexo', { required: true })} />
-        <CampoSelect etiqueta="RH" opciones={RH} vacio="—" registro={register('rh')} />
-        <CampoSelect etiqueta="Estado civil" opciones={ESTADO_CIVIL} vacio="—" registro={register('estado_civil')} />
-        <CampoTexto etiqueta="F. nacimiento" requerido type="date" registro={register('fecha_nacimiento', { required: true })} />
-        <CampoTexto etiqueta="Religión" registro={register('religion')} />
-        <CampoTexto etiqueta="Nivel educativo" registro={register('nivel_educativo')} />
-        <CampoTexto etiqueta="Etnia" registro={register('etnia')} />
-      </Seccion>
+        <Seccion titulo="Datos personales">
+          <CampoSelect etiqueta="Sexo" requerido opciones={SEXOS} registro={register('sexo', { required: true })} />
+          <CampoSelect etiqueta="RH" opciones={RH} vacio="—" registro={register('rh')} />
+          <CampoSelect etiqueta="Estado civil" opciones={ESTADO_CIVIL} vacio="—" registro={register('estado_civil')} />
+          <CampoTexto etiqueta="F. nacimiento" requerido type="date" registro={register('fecha_nacimiento', { required: true })} />
+          <CampoTexto etiqueta="Religión" registro={register('religion')} />
+          <CampoTexto etiqueta="Nivel educativo" registro={register('nivel_educativo')} />
+          <CampoTexto etiqueta="Etnia" registro={register('etnia')} />
+        </Seccion>
 
-      <Seccion titulo="Contacto">
-        <CampoTexto etiqueta="Teléfono móvil" registro={register('telefono_movil')} />
-        <CampoTexto etiqueta="Teléfono fijo" registro={register('telefono_fijo')} />
-        <CampoTexto etiqueta="Correo" type="email" registro={register('email')} />
-        <CampoTexto etiqueta="Dirección" registro={register('direccion')} />
-        <CampoTexto etiqueta="Barrio" registro={register('barrio')} />
-        <CampoTexto etiqueta="Comuna" registro={register('comuna')} />
-        <CampoTexto etiqueta="Ciudad atención" registro={register('ciudad_atencion')} />
-        <CampoTexto etiqueta="Ciudad visita" registro={register('ciudad_visita')} />
-        <CampoTexto etiqueta="Tipo inmueble" registro={register('tipo_inmueble')} />
-      </Seccion>
+        <Seccion titulo="Contacto">
+          <CampoTexto etiqueta="Teléfono móvil" registro={register('telefono_movil')} />
+          <CampoTexto etiqueta="Teléfono fijo" registro={register('telefono_fijo')} />
+          <CampoTexto etiqueta="Correo" type="email" registro={register('email')} />
+          <CampoTexto etiqueta="Dirección" registro={register('direccion')} />
+          <CampoTexto etiqueta="Barrio" registro={register('barrio')} />
+          <CampoTexto etiqueta="Comuna" registro={register('comuna')} />
+          <CampoTexto etiqueta="Ciudad atención" registro={register('ciudad_atencion')} />
+          <CampoTexto etiqueta="Ciudad visita" registro={register('ciudad_visita')} />
+          <CampoTexto etiqueta="Tipo inmueble" registro={register('tipo_inmueble')} />
+        </Seccion>
 
-      <Seccion titulo="Responsable">
-        <CampoTexto etiqueta="Nombre" registro={register('responsable_nombre')} />
-        <CampoTexto etiqueta="Teléfono" registro={register('responsable_telefono')} />
-        <CampoTexto etiqueta="Médico tratante" registro={register('medico_tratante')} />
-      </Seccion>
+        <Seccion titulo="Responsable">
+          <CampoTexto etiqueta="Nombre" registro={register('responsable_nombre')} />
+          <CampoTexto etiqueta="Teléfono" registro={register('responsable_telefono')} />
+          <CampoTexto etiqueta="Médico tratante" registro={register('medico_tratante')} />
+        </Seccion>
 
-      <Seccion titulo="Atención y afiliación">
-        <CampoSelect etiqueta="Tipo paciente" opciones={TIPO_PACIENTE} vacio="—" registro={register('tipo_paciente')} />
-        <CampoSelect etiqueta="Periodo visitas" opciones={PERIODO_VISITAS} vacio="—" registro={register('periodo_visitas')} />
-        <CampoTexto etiqueta="F. ingreso" type="date" registro={register('fecha_ingreso')} />
-        <CampoSelect etiqueta="Tipo usuario" opciones={TIPO_USUARIO} registro={register('tipo_usuario')} />
-        <CampoSelect
-          etiqueta="Entidad (EPS)"
-          opciones={(entidades ?? []).map((e) => ({ valor: e.id, texto: e.nombre }))}
-          vacio="— Sin asignar —"
-          registro={register('entidad_id')}
-        />
-        <CampoSelect etiqueta="Sede" requerido opciones={(sedes ?? []).map((s) => ({ valor: s.id, texto: s.nombre }))} vacio="— Seleccione —" registro={register('sede_id', { required: true })} />
-        <CampoSelect etiqueta="Estado" requerido opciones={ESTADOS_PACIENTE} registro={register('estado', { required: true })} />
-        <CampoTexto etiqueta="F. estado" type="date" registro={register('fecha_estado')} />
-        <div className="flex flex-col justify-center gap-0.5">
-          <CampoCheck etiqueta="Aceptado" registro={register('aceptado')} />
-          <CampoCheck etiqueta="Alto riesgo" registro={register('alto_riesgo')} />
-        </div>
-      </Seccion>
+        <Seccion titulo="Atención y afiliación">
+          <CampoSelect etiqueta="Tipo paciente" opciones={TIPO_PACIENTE} vacio="—" registro={register('tipo_paciente')} />
+          <CampoSelect etiqueta="Periodo visitas" opciones={PERIODO_VISITAS} vacio="—" registro={register('periodo_visitas')} />
+          <CampoTexto etiqueta="F. ingreso" type="date" registro={register('fecha_ingreso')} />
+          <CampoSelect etiqueta="Tipo usuario" opciones={TIPO_USUARIO} registro={register('tipo_usuario')} />
+          <CampoSelect
+            etiqueta="Entidad (EPS)"
+            opciones={(entidades ?? []).map((e) => ({ valor: e.id, texto: e.nombre }))}
+            vacio="— Sin asignar —"
+            registro={register('entidad_id')}
+          />
+          <CampoSelect etiqueta="Sede" requerido opciones={(sedes ?? []).map((s) => ({ valor: s.id, texto: s.nombre }))} vacio="— Seleccione —" registro={register('sede_id', { required: true })} />
+          <CampoSelect etiqueta="Estado" requerido opciones={ESTADOS_PACIENTE} registro={register('estado', { required: true })} />
+          <CampoTexto etiqueta="F. estado" type="date" registro={register('fecha_estado')} />
+          <div className="flex flex-col justify-center gap-0.5">
+            <CampoCheck etiqueta="Aceptado" registro={register('aceptado')} />
+            <CampoCheck etiqueta="Alto riesgo" registro={register('alto_riesgo')} />
+          </div>
+        </Seccion>
+      </div>
 
       {errorGuardar && (
         <p className="rounded-lg bg-red-50 px-2 py-1.5 text-xs text-red-700" role="alert">

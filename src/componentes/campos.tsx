@@ -61,12 +61,11 @@ export function CampoCheck({ etiqueta, registro }: { etiqueta: string; registro:
   )
 }
 
-export function Seccion({ titulo, children, cols = 4 }: { titulo: string; children: ReactNode; cols?: 2 | 3 | 4 }) {
-  const colClass = cols === 2 ? 'sm:grid-cols-2' : cols === 3 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
+export function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
     <section className="overflow-hidden rounded-lg border border-marca-300 bg-white shadow-md">
       <h2 className="bg-marca-600 px-3 py-1.5 text-sm font-semibold text-white">{titulo}</h2>
-      <div className={`grid grid-cols-1 gap-x-3 gap-y-2 p-3 ${colClass}`}>{children}</div>
+      <div className="flex flex-col gap-2 p-3">{children}</div>
     </section>
   )
 }
