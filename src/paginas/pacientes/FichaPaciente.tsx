@@ -194,10 +194,16 @@ export function FichaPaciente({ pacienteId, onCerrar }: FichaPacienteProps) {
       </div>
 
       {!esNuevo && pacienteId && (
-        <div className="space-y-3 border-t border-slate-200 pt-3">
-          <SeccionDiagnosticos pacienteId={pacienteId} />
-          <SeccionCuidadores pacienteId={pacienteId} />
-          <SeccionVivienda pacienteId={pacienteId} />
+        <div className="grid grid-cols-1 gap-3 border-t border-slate-200 pt-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="sm:col-span-2 lg:col-span-2">
+            <SeccionDiagnosticos pacienteId={pacienteId} />
+          </div>
+          <div className="sm:col-span-2 lg:col-span-2">
+            <SeccionCuidadores pacienteId={pacienteId} />
+          </div>
+          <div className="sm:col-span-2 lg:col-span-4">
+            <SeccionVivienda pacienteId={pacienteId} />
+          </div>
         </div>
       )}
     </form>

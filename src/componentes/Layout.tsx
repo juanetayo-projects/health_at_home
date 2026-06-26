@@ -38,16 +38,14 @@ export function Layout() {
           sidebarAbierto ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center gap-3 px-4 py-4">
+        <div className="flex flex-col items-center gap-1 px-4 py-4">
           <NavLink to="/" onClick={() => setSidebarAbierto(false)}>
             <Marca variante="blanco" className="h-10" />
           </NavLink>
-          <div className="min-w-0">
-            <NavLink to="/" onClick={() => setSidebarAbierto(false)} className="block hover:text-white/80">
-              <p className="truncate text-sm font-semibold leading-tight">{MARCA.aplicacion}</p>
-            </NavLink>
-            <p className="truncate text-xs text-white/60 leading-tight">{MARCA.empresa}</p>
-          </div>
+          <NavLink to="/" onClick={() => setSidebarAbierto(false)} className="text-center hover:text-white/80">
+            <p className="truncate text-sm font-semibold leading-tight">{MARCA.aplicacion}</p>
+            <p className="truncate text-[11px] text-white/60 leading-tight">{MARCA.empresa}</p>
+          </NavLink>
         </div>
 
         <nav className="flex-1 space-y-1 px-3 py-2">
