@@ -110,7 +110,7 @@ export function FichaPaciente({ pacienteId, onCerrar }: FichaPacienteProps) {
         <UserPlus className="h-4 w-4" /> {esNuevo ? 'Nuevo paciente' : 'Editar paciente'}
       </h2>
 
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Seccion titulo="Identificación">
           <CampoSelect etiqueta="Tipo ID" requerido opciones={TIPOS_ID} registro={register('tipo_identidad', { required: true })} />
           <CampoTexto etiqueta="Identidad" requerido registro={register('identidad', { required: true })} />

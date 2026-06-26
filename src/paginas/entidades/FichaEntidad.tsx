@@ -78,17 +78,19 @@ export function FichaEntidad({ entidadId, onCerrar }: FichaEntidadProps) {
         <Building2 className="h-4 w-4" /> {esNueva ? 'Nueva entidad' : 'Editar entidad'}
       </h2>
 
-      <Seccion titulo="Datos de la entidad">
-        <CampoTexto etiqueta="Código" requerido registro={register('codigo', { required: true })} />
-        <CampoTexto etiqueta="NIT" requerido registro={register('nit', { required: true })} />
-        <CampoSelect etiqueta="Unidad" opciones={UNIDADES} vacio="—" registro={register('unidad')} />
-        <CampoTexto etiqueta="Nombre" requerido registro={register('nombre', { required: true })} />
-        <CampoTexto etiqueta="Ciudad" registro={register('ciudad')} />
-        <CampoTexto etiqueta="Teléfono" registro={register('telefono')} />
-        <CampoTexto etiqueta="Correo" type="email" registro={register('email')} />
-        <CampoTexto etiqueta="Dirección" registro={register('direccion')} />
-        <CampoCheck etiqueta="Activa" registro={register('activo')} />
-      </Seccion>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <Seccion titulo="Datos de la entidad">
+          <CampoTexto etiqueta="Código" requerido registro={register('codigo', { required: true })} />
+          <CampoTexto etiqueta="NIT" requerido registro={register('nit', { required: true })} />
+          <CampoSelect etiqueta="Unidad" opciones={UNIDADES} vacio="—" registro={register('unidad')} />
+          <CampoTexto etiqueta="Nombre" requerido registro={register('nombre', { required: true })} />
+          <CampoTexto etiqueta="Ciudad" registro={register('ciudad')} />
+          <CampoTexto etiqueta="Teléfono" registro={register('telefono')} />
+          <CampoTexto etiqueta="Correo" type="email" registro={register('email')} />
+          <CampoTexto etiqueta="Dirección" registro={register('direccion')} />
+          <CampoCheck etiqueta="Activa" registro={register('activo')} />
+        </Seccion>
+      </div>
 
       {errorGuardar && (
         <p className="rounded-lg bg-red-50 px-2 py-1.5 text-xs text-red-700" role="alert">
