@@ -105,15 +105,14 @@ export function FichaPaciente({ pacienteId, onCerrar }: FichaPacienteProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(alGuardar)} className="space-y-5">
-      <h2 className="flex items-center gap-2 text-lg font-semibold text-marca-800">
-        <UserPlus className="h-5 w-5" /> {esNuevo ? 'Nuevo paciente' : 'Editar paciente'}
+    <form onSubmit={handleSubmit(alGuardar)} className="space-y-3">
+      <h2 className="flex items-center gap-2 text-base font-semibold text-marca-800">
+        <UserPlus className="h-4 w-4" /> {esNuevo ? 'Nuevo paciente' : 'Editar paciente'}
       </h2>
 
       <Seccion titulo="Identificación">
-        <CampoSelect etiqueta="Tipo de identidad" requerido opciones={TIPOS_ID} registro={register('tipo_identidad', { required: true })} />
+        <CampoSelect etiqueta="Tipo ID" requerido opciones={TIPOS_ID} registro={register('tipo_identidad', { required: true })} />
         <CampoTexto etiqueta="Identidad" requerido registro={register('identidad', { required: true })} />
-        <div />
         <CampoTexto etiqueta="Apellidos" requerido registro={register('apellidos', { required: true })} />
         <CampoTexto etiqueta="Nombres" requerido registro={register('nombres', { required: true })} />
       </Seccion>
@@ -122,35 +121,35 @@ export function FichaPaciente({ pacienteId, onCerrar }: FichaPacienteProps) {
         <CampoSelect etiqueta="Sexo" requerido opciones={SEXOS} registro={register('sexo', { required: true })} />
         <CampoSelect etiqueta="RH" opciones={RH} vacio="—" registro={register('rh')} />
         <CampoSelect etiqueta="Estado civil" opciones={ESTADO_CIVIL} vacio="—" registro={register('estado_civil')} />
-        <CampoTexto etiqueta="Fecha de nacimiento" requerido type="date" registro={register('fecha_nacimiento', { required: true })} />
+        <CampoTexto etiqueta="F. nacimiento" requerido type="date" registro={register('fecha_nacimiento', { required: true })} />
         <CampoTexto etiqueta="Religión" registro={register('religion')} />
         <CampoTexto etiqueta="Nivel educativo" registro={register('nivel_educativo')} />
         <CampoTexto etiqueta="Etnia" registro={register('etnia')} />
       </Seccion>
 
-      <Seccion titulo="Contacto y ubicación">
+      <Seccion titulo="Contacto">
         <CampoTexto etiqueta="Teléfono móvil" registro={register('telefono_movil')} />
         <CampoTexto etiqueta="Teléfono fijo" registro={register('telefono_fijo')} />
-        <CampoTexto etiqueta="Correo electrónico" type="email" registro={register('email')} />
+        <CampoTexto etiqueta="Correo" type="email" registro={register('email')} />
         <CampoTexto etiqueta="Dirección" registro={register('direccion')} />
         <CampoTexto etiqueta="Barrio" registro={register('barrio')} />
         <CampoTexto etiqueta="Comuna" registro={register('comuna')} />
-        <CampoTexto etiqueta="Ciudad de atención" registro={register('ciudad_atencion')} />
-        <CampoTexto etiqueta="Ciudad de visita" registro={register('ciudad_visita')} />
-        <CampoTexto etiqueta="Tipo de inmueble" registro={register('tipo_inmueble')} />
+        <CampoTexto etiqueta="Ciudad atención" registro={register('ciudad_atencion')} />
+        <CampoTexto etiqueta="Ciudad visita" registro={register('ciudad_visita')} />
+        <CampoTexto etiqueta="Tipo inmueble" registro={register('tipo_inmueble')} />
       </Seccion>
 
       <Seccion titulo="Responsable">
-        <CampoTexto etiqueta="Nombre del responsable" registro={register('responsable_nombre')} />
-        <CampoTexto etiqueta="Teléfono del responsable" registro={register('responsable_telefono')} />
+        <CampoTexto etiqueta="Nombre" registro={register('responsable_nombre')} />
+        <CampoTexto etiqueta="Teléfono" registro={register('responsable_telefono')} />
         <CampoTexto etiqueta="Médico tratante" registro={register('medico_tratante')} />
       </Seccion>
 
       <Seccion titulo="Atención y afiliación">
-        <CampoSelect etiqueta="Tipo de paciente" opciones={TIPO_PACIENTE} vacio="—" registro={register('tipo_paciente')} />
-        <CampoSelect etiqueta="Periodo de visitas" opciones={PERIODO_VISITAS} vacio="—" registro={register('periodo_visitas')} />
-        <CampoTexto etiqueta="Fecha de ingreso" type="date" registro={register('fecha_ingreso')} />
-        <CampoSelect etiqueta="Tipo de usuario" opciones={TIPO_USUARIO} registro={register('tipo_usuario')} />
+        <CampoSelect etiqueta="Tipo paciente" opciones={TIPO_PACIENTE} vacio="—" registro={register('tipo_paciente')} />
+        <CampoSelect etiqueta="Periodo visitas" opciones={PERIODO_VISITAS} vacio="—" registro={register('periodo_visitas')} />
+        <CampoTexto etiqueta="F. ingreso" type="date" registro={register('fecha_ingreso')} />
+        <CampoSelect etiqueta="Tipo usuario" opciones={TIPO_USUARIO} registro={register('tipo_usuario')} />
         <CampoSelect
           etiqueta="Entidad (EPS)"
           opciones={(entidades ?? []).map((e) => ({ valor: e.id, texto: e.nombre }))}
@@ -159,25 +158,25 @@ export function FichaPaciente({ pacienteId, onCerrar }: FichaPacienteProps) {
         />
         <CampoSelect etiqueta="Sede" requerido opciones={(sedes ?? []).map((s) => ({ valor: s.id, texto: s.nombre }))} vacio="— Seleccione —" registro={register('sede_id', { required: true })} />
         <CampoSelect etiqueta="Estado" requerido opciones={ESTADOS_PACIENTE} registro={register('estado', { required: true })} />
-        <CampoTexto etiqueta="Fecha del estado" type="date" registro={register('fecha_estado')} />
-        <div className="flex flex-col justify-center gap-1">
+        <CampoTexto etiqueta="F. estado" type="date" registro={register('fecha_estado')} />
+        <div className="flex flex-col justify-center gap-0.5">
           <CampoCheck etiqueta="Aceptado" registro={register('aceptado')} />
           <CampoCheck etiqueta="Alto riesgo" registro={register('alto_riesgo')} />
         </div>
       </Seccion>
 
       {errorGuardar && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
+        <p className="rounded-lg bg-red-50 px-2 py-1.5 text-xs text-red-700" role="alert">
           {errorGuardar}
         </p>
       )}
 
-      <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+      <div className="flex justify-end gap-2 border-t border-slate-200 pt-3">
         {onCerrar && (
           <button
             type="button"
             onClick={onCerrar}
-            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+            className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
           >
             Cancelar
           </button>
@@ -185,15 +184,15 @@ export function FichaPaciente({ pacienteId, onCerrar }: FichaPacienteProps) {
         <button
           type="submit"
           disabled={formState.isSubmitting}
-          className="flex items-center gap-2 rounded-lg bg-marca-600 px-5 py-2 text-sm font-medium text-white hover:bg-marca-700 disabled:opacity-60"
+          className="flex items-center gap-1.5 rounded-lg bg-marca-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-marca-700 disabled:opacity-60"
         >
-          {formState.isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {formState.isSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
           Guardar
         </button>
       </div>
 
       {!esNuevo && pacienteId && (
-        <div className="space-y-5 border-t border-slate-200 pt-5">
+        <div className="space-y-3 border-t border-slate-200 pt-3">
           <SeccionDiagnosticos pacienteId={pacienteId} />
           <SeccionCuidadores pacienteId={pacienteId} />
           <SeccionVivienda pacienteId={pacienteId} />

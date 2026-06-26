@@ -73,39 +73,35 @@ export function FichaEntidad({ entidadId, onCerrar }: FichaEntidadProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(alGuardar)} className="space-y-5">
-      <h2 className="flex items-center gap-2 text-lg font-semibold text-marca-800">
-        <Building2 className="h-5 w-5" /> {esNueva ? 'Nueva entidad' : 'Editar entidad'}
+    <form onSubmit={handleSubmit(alGuardar)} className="space-y-3">
+      <h2 className="flex items-center gap-2 text-base font-semibold text-marca-800">
+        <Building2 className="h-4 w-4" /> {esNueva ? 'Nueva entidad' : 'Editar entidad'}
       </h2>
 
       <Seccion titulo="Datos de la entidad">
         <CampoTexto etiqueta="Código" requerido registro={register('codigo', { required: true })} />
         <CampoTexto etiqueta="NIT" requerido registro={register('nit', { required: true })} />
         <CampoSelect etiqueta="Unidad" opciones={UNIDADES} vacio="—" registro={register('unidad')} />
-        <div className="sm:col-span-2 lg:col-span-3">
-          <CampoTexto etiqueta="Nombre" requerido registro={register('nombre', { required: true })} />
-        </div>
+        <CampoTexto etiqueta="Nombre" requerido registro={register('nombre', { required: true })} />
         <CampoTexto etiqueta="Ciudad" registro={register('ciudad')} />
         <CampoTexto etiqueta="Teléfono" registro={register('telefono')} />
-        <CampoTexto etiqueta="Correo electrónico" type="email" registro={register('email')} />
-        <div className="sm:col-span-2 lg:col-span-3">
-          <CampoTexto etiqueta="Dirección" registro={register('direccion')} />
-        </div>
+        <CampoTexto etiqueta="Correo" type="email" registro={register('email')} />
+        <CampoTexto etiqueta="Dirección" registro={register('direccion')} />
         <CampoCheck etiqueta="Activa" registro={register('activo')} />
       </Seccion>
 
       {errorGuardar && (
-        <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
+        <p className="rounded-lg bg-red-50 px-2 py-1.5 text-xs text-red-700" role="alert">
           {errorGuardar}
         </p>
       )}
 
-      <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+      <div className="flex justify-end gap-2 border-t border-slate-200 pt-3">
         {onCerrar && (
           <button
             type="button"
             onClick={onCerrar}
-            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
+            className="rounded-lg border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
           >
             Cancelar
           </button>
@@ -113,9 +109,9 @@ export function FichaEntidad({ entidadId, onCerrar }: FichaEntidadProps) {
         <button
           type="submit"
           disabled={formState.isSubmitting}
-          className="flex items-center gap-2 rounded-lg bg-marca-600 px-5 py-2 text-sm font-medium text-white hover:bg-marca-700 disabled:opacity-60"
+          className="flex items-center gap-1.5 rounded-lg bg-marca-600 px-4 py-1.5 text-xs font-medium text-white hover:bg-marca-700 disabled:opacity-60"
         >
-          {formState.isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          {formState.isSubmitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
           Guardar
         </button>
       </div>

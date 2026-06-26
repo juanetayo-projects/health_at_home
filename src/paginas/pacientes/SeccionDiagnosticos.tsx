@@ -53,45 +53,45 @@ export function SeccionDiagnosticos({ pacienteId }: { pacienteId: string }) {
     onSuccess: () => qc.invalidateQueries({ queryKey: ['diagnosticos', pacienteId] }),
   })
 
-  const input = 'rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-marca-500 focus:ring-2 focus:ring-marca-200'
+  const input = 'rounded-lg border border-slate-300 px-2.5 py-1.5 text-xs outline-none focus:border-marca-500 focus:ring-2 focus:ring-marca-200'
 
   return (
-    <section className="overflow-hidden rounded-xl border-2 border-marca-300 bg-white shadow-lg">
-      <h2 className="flex items-center gap-2 bg-marca-600 px-5 py-3 text-lg font-semibold text-white">
-        <Stethoscope className="h-5 w-5" /> Diagnósticos (CIE-10)
+    <section className="overflow-hidden rounded-lg border border-marca-300 bg-white shadow-md">
+      <h2 className="flex items-center gap-1.5 bg-marca-600 px-3 py-1.5 text-sm font-semibold text-white">
+        <Stethoscope className="h-3.5 w-3.5" /> Diagnósticos (CIE-10)
       </h2>
-      <div className="p-5">
+      <div className="p-3">
 
       {isLoading ? (
-        <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
+        <Loader2 className="h-4 w-4 animate-spin text-slate-400" />
       ) : data && data.length > 0 ? (
-        <table className="mb-4 w-full text-sm">
+        <table className="mb-3 w-full text-xs">
           <thead className="text-left text-slate-500">
             <tr>
-              <th className="py-1 pr-2">Código</th>
-              <th className="py-1 pr-2">Descripción</th>
-              <th className="py-1 pr-2">Tipo</th>
-              <th className="py-1 pr-2">Riesgos</th>
+              <th className="py-0.5 pr-2">Código</th>
+              <th className="py-0.5 pr-2">Descripción</th>
+              <th className="py-0.5 pr-2">Tipo</th>
+              <th className="py-0.5 pr-2">Riesgos</th>
               <th></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {data.map((d) => (
               <tr key={d.id}>
-                <td className="py-2 pr-2 font-mono text-xs">{d.codigo_cie10}</td>
-                <td className="py-2 pr-2">{d.descripcion ?? '—'}</td>
-                <td className="py-2 pr-2">{d.tipo}</td>
-                <td className="py-2 pr-2 text-xs text-red-600">
+                <td className="py-1 pr-2 font-mono text-[11px]">{d.codigo_cie10}</td>
+                <td className="py-1 pr-2">{d.descripcion ?? '—'}</td>
+                <td className="py-1 pr-2">{d.tipo}</td>
+                <td className="py-1 pr-2 text-[11px] text-red-600">
                   {[d.riesgo_vital && 'Vital', d.riesgo_hemodinamico && 'Hemodinámico'].filter(Boolean).join(', ')}
                 </td>
-                <td className="py-2 text-right">
+                <td className="py-1 text-right">
                   <button
                     type="button"
                     onClick={() => eliminar.mutate(d.id)}
                     className="text-slate-400 hover:text-red-600"
                     aria-label="Eliminar diagnóstico"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </td>
               </tr>
@@ -99,11 +99,11 @@ export function SeccionDiagnosticos({ pacienteId }: { pacienteId: string }) {
           </tbody>
         </table>
       ) : (
-        <p className="mb-4 text-sm text-slate-500">Sin diagnósticos registrados.</p>
+        <p className="mb-3 text-xs text-slate-500">Sin diagnósticos registrados.</p>
       )}
 
-      <div className="flex flex-wrap items-end gap-2">
-        <input value={codigo} onChange={(e) => setCodigo(e.target.value)} placeholder="CIE-10 (ej. R53X)" className={`${input} w-32`} />
+      <div className="flex flex-wrap items-end gap-1.5">
+        <input value={codigo} onChange={(e) => setCodigo(e.target.value)} placeholder="CIE-10" className={`${input} w-24`} />
         <input value={descripcion} onChange={(e) => setDescripcion(e.target.value)} placeholder="Descripción" className={`${input} flex-1`} />
         <select value={tipo} onChange={(e) => setTipo(e.target.value)} className={input}>
           <option>Principal</option>
@@ -113,12 +113,12 @@ export function SeccionDiagnosticos({ pacienteId }: { pacienteId: string }) {
           type="button"
           disabled={!codigo.trim() || agregar.isPending}
           onClick={() => agregar.mutate()}
-          className="flex items-center gap-1 rounded-lg bg-marca-600 px-3 py-2 text-sm font-medium text-white hover:bg-marca-700 disabled:opacity-50"
+          className="flex items-center gap-1 rounded-lg bg-marca-600 px-2.5 py-1.5 text-xs font-medium text-white hover:bg-marca-700 disabled:opacity-50"
         >
-          <Plus className="h-4 w-4" /> Agregar
+          <Plus className="h-3.5 w-3.5" /> Agregar
         </button>
       </div>
-      {agregar.isError && <p className="mt-2 text-sm text-red-600">{(agregar.error as Error).message}</p>}
+      {agregar.isError && <p className="mt-1.5 text-xs text-red-600">{(agregar.error as Error).message}</p>}
       </div>
     </section>
   )
