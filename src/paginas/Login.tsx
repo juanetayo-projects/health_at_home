@@ -28,7 +28,7 @@ export default function Login() {
 
   return (
     <div className="flex min-h-full items-center justify-center bg-gradient-to-br from-marca-700 to-marca-900 p-4">
-      <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
+      <div className="w-full max-w-md rounded-2xl border-2 border-marca-300 bg-white p-8 shadow-xl">
         <div className="mb-6 flex flex-col items-center text-center">
           <Marca className="h-16" />
           <h1 className="mt-4 text-xl font-semibold text-marca-800">{MARCA.aplicacion}</h1>

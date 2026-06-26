@@ -56,10 +56,11 @@ export function SeccionDiagnosticos({ pacienteId }: { pacienteId: string }) {
   const input = 'rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none focus:border-marca-500 focus:ring-2 focus:ring-marca-200'
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="mb-4 flex items-center gap-2 border-b border-slate-100 pb-2 text-lg font-semibold text-marca-800">
+    <section className="overflow-hidden rounded-xl border-2 border-marca-300 bg-white shadow-lg">
+      <h2 className="flex items-center gap-2 bg-marca-600 px-5 py-3 text-lg font-semibold text-white">
         <Stethoscope className="h-5 w-5" /> Diagnósticos (CIE-10)
       </h2>
+      <div className="p-5">
 
       {isLoading ? (
         <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
@@ -118,6 +119,7 @@ export function SeccionDiagnosticos({ pacienteId }: { pacienteId: string }) {
         </button>
       </div>
       {agregar.isError && <p className="mt-2 text-sm text-red-600">{(agregar.error as Error).message}</p>}
+      </div>
     </section>
   )
 }

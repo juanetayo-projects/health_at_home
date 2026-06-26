@@ -73,10 +73,11 @@ export function SeccionVivienda({ pacienteId }: { pacienteId: string }) {
   if (isLoading) return <Loader2 className="h-5 w-5 animate-spin text-slate-400" />
 
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="mb-4 flex items-center gap-2 border-b border-slate-100 pb-2 text-lg font-semibold text-marca-800">
+    <section className="overflow-hidden rounded-xl border-2 border-marca-300 bg-white shadow-lg">
+      <h2 className="flex items-center gap-2 bg-marca-600 px-5 py-3 text-lg font-semibold text-white">
         <Home className="h-5 w-5" /> Vivienda
       </h2>
+      <div className="p-5">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <label className="block"><span className="mb-1 block text-sm font-medium text-slate-700">Tipo de vivienda</span>
           <input className={input} value={form.tipo_vivienda} onChange={set('tipo_vivienda')} placeholder="Casa, Apartamento…" /></label>
@@ -106,6 +107,7 @@ export function SeccionVivienda({ pacienteId }: { pacienteId: string }) {
         </button>
         {guardar.isSuccess && <span className="flex items-center gap-1 text-sm text-green-600"><Check className="h-4 w-4" /> Guardado</span>}
         {guardar.isError && <span className="text-sm text-red-600">{(guardar.error as Error).message}</span>}
+      </div>
       </div>
     </section>
   )

@@ -63,9 +63,9 @@ export function CampoCheck({ etiqueta, registro }: { etiqueta: string; registro:
 
 export function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
-    <section className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
-      <h2 className="mb-4 border-b border-slate-100 pb-2 text-lg font-semibold text-marca-800">{titulo}</h2>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">{children}</div>
+    <section className="overflow-hidden rounded-xl border-2 border-marca-300 bg-white shadow-lg">
+      <h2 className="bg-marca-600 px-5 py-3 text-lg font-semibold text-white">{titulo}</h2>
+      <div className="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2 lg:grid-cols-3">{children}</div>
     </section>
   )
 }

@@ -35,14 +35,14 @@ export default function Inicio() {
             <Link
               key={titulo}
               to={ruta}
-              className="block rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:border-marca-300 hover:shadow-md"
+              className="block rounded-xl border-2 border-marca-300 bg-white p-5 shadow-lg transition hover:border-marca-500 hover:shadow-xl"
             >
               {contenido}
             </Link>
           ) : (
             <div
               key={titulo}
-              className="rounded-xl border border-slate-200 bg-white p-5 opacity-70 shadow-sm"
+              className="rounded-xl border-2 border-marca-300 bg-white p-5 opacity-70 shadow-lg"
             >
               {contenido}
               <span className="mt-2 inline-block rounded bg-slate-100 px-1.5 py-0.5 text-xs text-slate-500">

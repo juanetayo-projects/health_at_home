@@ -69,7 +69,7 @@ export default function ListaEntidades() {
         </button>
       </form>
 
-      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      <div className="overflow-hidden rounded-xl border-2 border-marca-300 bg-white shadow-lg">
         {isLoading ? (
           <div className="flex items-center justify-center gap-2 p-12 text-slate-500">
             <Loader2 className="h-6 w-6 animate-spin" /> Cargando entidades…
