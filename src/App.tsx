@@ -8,9 +8,7 @@ import RecuperarContrasena from '@/paginas/RecuperarContrasena'
 import CambiarContrasena from '@/paginas/CambiarContrasena'
 import Inicio from '@/paginas/Inicio'
 import ListaPacientes from '@/paginas/pacientes/ListaPacientes'
-import FichaPaciente from '@/paginas/pacientes/FichaPaciente'
 import ListaEntidades from '@/paginas/entidades/ListaEntidades'
-import FichaEntidad from '@/paginas/entidades/FichaEntidad'
 
 const queryClient = new QueryClient({
   defaultOptions: { queries: { staleTime: 30_000, retry: 1 } },
@@ -30,11 +28,7 @@ export default function App() {
               <Route element={<Layout />}>
                 <Route index element={<Inicio />} />
                 <Route path="pacientes" element={<ListaPacientes />} />
-                <Route path="pacientes/nuevo" element={<FichaPaciente />} />
-                <Route path="pacientes/:id" element={<FichaPaciente />} />
                 <Route path="entidades" element={<ListaEntidades />} />
-                <Route path="entidades/nueva" element={<FichaEntidad />} />
-                <Route path="entidades/:id" element={<FichaEntidad />} />
               </Route>
             </Route>
 

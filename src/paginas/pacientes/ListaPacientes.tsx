@@ -1,9 +1,10 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useQuery, keepPreviousData } from '@tanstack/react-query'
+import { useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query'
 import { Users, Search, Plus, Loader2, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { calcularEdad } from '@/lib/tiempo'
+import { Modal } from '@/componentes/Modal'
+import { FichaPaciente } from './FichaPaciente'
 import type { Paciente } from '@/lib/tipos'
 
 const POR_PAGINA = 15
@@ -28,6 +29,8 @@ export default function ListaPacientes() {
   const [pagina, setPagina] = useState(0)
   const [busqueda, setBusqueda] = useState('')
   const [texto, setTexto] = useState('')
+  const [modalId, setModalId] = useState<string | undefined>()
+  const queryClient = useQueryClient()
 
   const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: ['pacientes', pagina, busqueda],
@@ -63,18 +66,23 @@ export default function ListaPacientes() {
     setBusqueda(texto.trim())
   }
 
+  function cerrarModal() {
+    setModalId(undefined)
+    queryClient.invalidateQueries({ queryKey: ['pacientes'] })
+  }
+
   return (
     <div className="mx-auto max-w-7xl">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h1 className="flex items-center gap-2 text-2xl font-semibold text-marca-800">
           <Users className="h-6 w-6" /> Pacientes
         </h1>
-        <Link
-          to="/pacientes/nuevo"
+        <button
+          onClick={() => setModalId('')}
           className="flex items-center gap-1 rounded-lg bg-marca-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-marca-700"
         >
           <Plus className="h-4 w-4" /> Crear paciente
-        </Link>
+        </button>
       </div>
 
       <form onSubmit={buscar} className="mb-4 flex gap-2">
@@ -141,9 +149,12 @@ export default function ListaPacientes() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <Link to={`/pacientes/${p.id}`} className="text-marca-600 hover:underline">
+                      <button
+                        onClick={() => setModalId(p.id)}
+                        className="text-marca-600 hover:underline"
+                      >
                         Ver
-                      </Link>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -180,6 +191,10 @@ export default function ListaPacientes() {
           </div>
         </div>
       )}
+
+      <Modal abierto={modalId !== undefined} alCerrar={cerrarModal} titulo="Paciente" ancho="max-w-6xl">
+        <FichaPaciente pacienteId={modalId} onCerrar={cerrarModal} />
+      </Modal>
     </div>
   )
 }

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, Save, Loader2, AlertTriangle, Building2 } from 'lucide-react'
+import { Save, Loader2, AlertTriangle, Building2 } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { CampoTexto, CampoSelect, CampoCheck, Seccion } from '@/componentes/campos'
 
@@ -10,10 +9,13 @@ const UNIDADES = ['ADT', 'VIH', 'Salud Mental', 'Consulta Especializada']
 
 type Valores = Record<string, string | boolean | null>
 
-export default function FichaEntidad() {
-  const { id } = useParams()
-  const esNueva = !id
-  const navegar = useNavigate()
+interface FichaEntidadProps {
+  entidadId?: string
+  onCerrar?: () => void
+}
+
+export function FichaEntidad({ entidadId, onCerrar }: FichaEntidadProps) {
+  const esNueva = !entidadId
   const [errorGuardar, setErrorGuardar] = useState<string | null>(null)
 
   const { register, handleSubmit, reset, formState } = useForm<Valores>({
@@ -21,10 +23,10 @@ export default function FichaEntidad() {
   })
 
   const { data: entidad, isLoading, isError } = useQuery({
-    queryKey: ['entidad', id],
+    queryKey: ['entidad', entidadId],
     enabled: !esNueva,
     queryFn: async () => {
-      const { data, error } = await supabase.from('entidades').select('*').eq('id', id).single()
+      const { data, error } = await supabase.from('entidades').select('*').eq('id', entidadId).single()
       if (error) throw error
       return data as Valores
     },
@@ -46,14 +48,13 @@ export default function FichaEntidad() {
     delete payload.updated_at
 
     if (esNueva) {
-      const { data, error } = await supabase.from('entidades').insert(payload).select('id').single()
+      const { error } = await supabase.from('entidades').insert(payload).select('id').single()
       if (error) return setErrorGuardar(error.message)
-      navegar(`/entidades/${data.id}`, { replace: true })
     } else {
-      const { error } = await supabase.from('entidades').update(payload).eq('id', id)
+      const { error } = await supabase.from('entidades').update(payload).eq('id', entidadId)
       if (error) return setErrorGuardar(error.message)
-      navegar('/entidades')
     }
+    onCerrar?.()
   }
 
   if (!esNueva && isLoading) {
@@ -72,15 +73,10 @@ export default function FichaEntidad() {
   }
 
   return (
-    <form onSubmit={handleSubmit(alGuardar)} className="mx-auto max-w-4xl space-y-5 pb-24">
-      <div className="flex items-center justify-between">
-        <Link to="/entidades" className="inline-flex items-center gap-1 text-sm text-marca-600 hover:underline">
-          <ArrowLeft className="h-4 w-4" /> Entidades
-        </Link>
-        <h1 className="flex items-center gap-2 text-xl font-semibold text-marca-800">
-          <Building2 className="h-5 w-5" /> {esNueva ? 'Nueva entidad' : 'Editar entidad'}
-        </h1>
-      </div>
+    <form onSubmit={handleSubmit(alGuardar)} className="space-y-5">
+      <h2 className="flex items-center gap-2 text-lg font-semibold text-marca-800">
+        <Building2 className="h-5 w-5" /> {esNueva ? 'Nueva entidad' : 'Editar entidad'}
+      </h2>
 
       <Seccion titulo="Datos de la entidad">
         <CampoTexto etiqueta="Código" requerido registro={register('codigo', { required: true })} />
@@ -104,20 +100,24 @@ export default function FichaEntidad() {
         </p>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur">
-        <div className="mx-auto flex max-w-4xl justify-end gap-3">
-          <Link to="/entidades" className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50">
-            Cancelar
-          </Link>
+      <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+        {onCerrar && (
           <button
-            type="submit"
-            disabled={formState.isSubmitting}
-            className="flex items-center gap-2 rounded-lg bg-marca-600 px-5 py-2 text-sm font-medium text-white hover:bg-marca-700 disabled:opacity-60"
+            type="button"
+            onClick={onCerrar}
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
           >
-            {formState.isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            Guardar
+            Cancelar
           </button>
-        </div>
+        )}
+        <button
+          type="submit"
+          disabled={formState.isSubmitting}
+          className="flex items-center gap-2 rounded-lg bg-marca-600 px-5 py-2 text-sm font-medium text-white hover:bg-marca-700 disabled:opacity-60"
+        >
+          {formState.isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          Guardar
+        </button>
       </div>
     </form>
   )

@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-import { ArrowLeft, Save, Loader2, AlertTriangle, UserPlus } from 'lucide-react'
+import { Save, Loader2, AlertTriangle, UserPlus } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
 import { CampoTexto, CampoSelect, CampoCheck, Seccion } from '@/componentes/campos'
 import { ESTADOS_PACIENTE } from '@/lib/tipos'
@@ -21,15 +20,17 @@ const TIPO_USUARIO = ['Subsidiado', 'Contributivo', 'Vinculado', 'Particular']
 const TIPO_PACIENTE = ['Agudo', 'Crónico', 'Paliativo']
 const PERIODO_VISITAS = ['Diaria', 'Semanal', 'Quincenal', 'Mensual']
 
-// Campos de fecha y FKs que deben quedar en null si van vacíos.
 const NULLABLES = ['fecha_nacimiento', 'fecha_ingreso', 'fecha_estado', 'entidad_id']
 
 type Valores = Record<string, string | boolean | null>
 
-export default function FichaPaciente() {
-  const { id } = useParams()
-  const esNuevo = !id
-  const navegar = useNavigate()
+interface FichaPacienteProps {
+  pacienteId?: string
+  onCerrar?: () => void
+}
+
+export function FichaPaciente({ pacienteId, onCerrar }: FichaPacienteProps) {
+  const esNuevo = !pacienteId
   const [errorGuardar, setErrorGuardar] = useState<string | null>(null)
 
   const { register, handleSubmit, reset, formState } = useForm<Valores>({
@@ -53,10 +54,10 @@ export default function FichaPaciente() {
   })
 
   const { data: paciente, isLoading: cargandoPaciente, isError } = useQuery({
-    queryKey: ['paciente', id],
+    queryKey: ['paciente', pacienteId],
     enabled: !esNuevo,
     queryFn: async () => {
-      const { data, error } = await supabase.from('pacientes').select('*').eq('id', id).single()
+      const { data, error } = await supabase.from('pacientes').select('*').eq('id', pacienteId).single()
       if (error) throw error
       return data as Valores
     },
@@ -74,20 +75,18 @@ export default function FichaPaciente() {
     setErrorGuardar(null)
     const payload: Record<string, unknown> = { ...valores }
     for (const campo of NULLABLES) if (!payload[campo]) payload[campo] = null
-    // Quitar columnas administradas por la BD
     delete payload.id
     delete payload.created_at
     delete payload.updated_at
 
     if (esNuevo) {
-      const { data, error } = await supabase.from('pacientes').insert(payload).select('id').single()
+      const { error } = await supabase.from('pacientes').insert(payload).select('id').single()
       if (error) return setErrorGuardar(error.message)
-      navegar(`/pacientes/${data.id}`, { replace: true })
     } else {
-      const { error } = await supabase.from('pacientes').update(payload).eq('id', id)
+      const { error } = await supabase.from('pacientes').update(payload).eq('id', pacienteId)
       if (error) return setErrorGuardar(error.message)
-      navegar('/pacientes')
     }
+    onCerrar?.()
   }
 
   if (!esNuevo && cargandoPaciente) {
@@ -106,16 +105,10 @@ export default function FichaPaciente() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl space-y-5 pb-24">
     <form onSubmit={handleSubmit(alGuardar)} className="space-y-5">
-      <div className="flex items-center justify-between">
-        <Link to="/pacientes" className="inline-flex items-center gap-1 text-sm text-marca-600 hover:underline">
-          <ArrowLeft className="h-4 w-4" /> Pacientes
-        </Link>
-        <h1 className="flex items-center gap-2 text-xl font-semibold text-marca-800">
-          <UserPlus className="h-5 w-5" /> {esNuevo ? 'Nuevo paciente' : 'Editar paciente'}
-        </h1>
-      </div>
+      <h2 className="flex items-center gap-2 text-lg font-semibold text-marca-800">
+        <UserPlus className="h-5 w-5" /> {esNuevo ? 'Nuevo paciente' : 'Editar paciente'}
+      </h2>
 
       <Seccion titulo="Identificación">
         <CampoSelect etiqueta="Tipo de identidad" requerido opciones={TIPOS_ID} registro={register('tipo_identidad', { required: true })} />
@@ -179,30 +172,33 @@ export default function FichaPaciente() {
         </p>
       )}
 
-      <div className="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/95 px-4 py-3 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl justify-end gap-3">
-          <Link to="/pacientes" className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50">
-            Cancelar
-          </Link>
+      <div className="flex justify-end gap-3 border-t border-slate-200 pt-4">
+        {onCerrar && (
           <button
-            type="submit"
-            disabled={formState.isSubmitting}
-            className="flex items-center gap-2 rounded-lg bg-marca-600 px-5 py-2 text-sm font-medium text-white hover:bg-marca-700 disabled:opacity-60"
+            type="button"
+            onClick={onCerrar}
+            className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50"
           >
-            {formState.isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-            Guardar
+            Cancelar
           </button>
-        </div>
+        )}
+        <button
+          type="submit"
+          disabled={formState.isSubmitting}
+          className="flex items-center gap-2 rounded-lg bg-marca-600 px-5 py-2 text-sm font-medium text-white hover:bg-marca-700 disabled:opacity-60"
+        >
+          {formState.isSubmitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+          Guardar
+        </button>
       </div>
-    </form>
 
-      {!esNuevo && id && (
-        <div className="space-y-5">
-          <SeccionDiagnosticos pacienteId={id} />
-          <SeccionCuidadores pacienteId={id} />
-          <SeccionVivienda pacienteId={id} />
+      {!esNuevo && pacienteId && (
+        <div className="space-y-5 border-t border-slate-200 pt-5">
+          <SeccionDiagnosticos pacienteId={pacienteId} />
+          <SeccionCuidadores pacienteId={pacienteId} />
+          <SeccionVivienda pacienteId={pacienteId} />
         </div>
       )}
-    </div>
+    </form>
   )
 }

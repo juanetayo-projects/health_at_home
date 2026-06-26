@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useQuery, keepPreviousData } from '@tanstack/react-query'
+import { useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query'
 import { Building2, Search, Plus, Loader2, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
+import { Modal } from '@/componentes/Modal'
+import { FichaEntidad } from './FichaEntidad'
 import type { Entidad } from '@/lib/tipos'
 
 const POR_PAGINA = 15
@@ -11,6 +12,8 @@ export default function ListaEntidades() {
   const [pagina, setPagina] = useState(0)
   const [busqueda, setBusqueda] = useState('')
   const [texto, setTexto] = useState('')
+  const [modalId, setModalId] = useState<string | undefined>()
+  const queryClient = useQueryClient()
 
   const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: ['entidades', pagina, busqueda],
@@ -40,18 +43,23 @@ export default function ListaEntidades() {
     setBusqueda(texto.trim())
   }
 
+  function cerrarModal() {
+    setModalId(undefined)
+    queryClient.invalidateQueries({ queryKey: ['entidades'] })
+  }
+
   return (
     <div className="mx-auto max-w-6xl">
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h1 className="flex items-center gap-2 text-2xl font-semibold text-marca-800">
           <Building2 className="h-6 w-6" /> Entidades (EPS)
         </h1>
-        <Link
-          to="/entidades/nueva"
+        <button
+          onClick={() => setModalId('')}
           className="flex items-center gap-1 rounded-lg bg-marca-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-marca-700"
         >
           <Plus className="h-4 w-4" /> Crear entidad
-        </Link>
+        </button>
       </div>
 
       <form onSubmit={buscar} className="mb-4 flex gap-2">
@@ -111,9 +119,12 @@ export default function ListaEntidades() {
                       </span>
                     </td>
                     <td className="px-4 py-3 text-right">
-                      <Link to={`/entidades/${e.id}`} className="text-marca-600 hover:underline">
+                      <button
+                        onClick={() => setModalId(e.id)}
+                        className="text-marca-600 hover:underline"
+                      >
                         Editar
-                      </Link>
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -150,6 +161,10 @@ export default function ListaEntidades() {
           </div>
         </div>
       )}
+
+      <Modal abierto={modalId !== undefined} alCerrar={cerrarModal} titulo="Entidad">
+        <FichaEntidad entidadId={modalId} onCerrar={cerrarModal} />
+      </Modal>
     </div>
   )
 }
