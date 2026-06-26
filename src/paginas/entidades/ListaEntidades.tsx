@@ -162,7 +162,7 @@ export default function ListaEntidades() {
         </div>
       )}
 
-      <Modal abierto={modalId !== undefined} alCerrar={cerrarModal} titulo="Entidad">
+      <Modal abierto={modalId !== undefined} alCerrar={cerrarModal} titulo="Entidad" ancho="max-w-5xl">
         <FichaEntidad entidadId={modalId} onCerrar={cerrarModal} />
       </Modal>
     </div>

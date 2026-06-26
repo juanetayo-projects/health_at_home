@@ -62,7 +62,7 @@ export function CampoCheck({ etiqueta, registro }: { etiqueta: string; registro:
 }
 
 export function Seccion({ titulo, children, cols = 4 }: { titulo: string; children: ReactNode; cols?: 2 | 3 | 4 }) {
-  const colClass = cols === 2 ? 'sm:grid-cols-2' : cols === 3 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+  const colClass = cols === 2 ? 'sm:grid-cols-2' : cols === 3 ? 'sm:grid-cols-2 lg:grid-cols-3' : 'sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'
   return (
     <section className="overflow-hidden rounded-lg border border-marca-300 bg-white shadow-md">
       <h2 className="bg-marca-600 px-3 py-1.5 text-sm font-semibold text-white">{titulo}</h2>
